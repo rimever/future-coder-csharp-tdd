@@ -1,0 +1,25 @@
+﻿<Page
+    x:Class="TddThermoConverter.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:TddThermoConverter"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DataContext="{d:DesignInstance local:ViewModel}"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <StackPanel Width="500">
+            <Slider Minimum="0" Maximum="100" Value="{Binding TemperatureModel.Celsius, Mode=TwoWay}"/>
+            <StackPanel Orientation="Horizontal">
+                <TextBox Text="摂氏："></TextBox>
+                <TextBox x:Name="Celsius" Text="{Binding TemperatureModel.Celsius}"></TextBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBox Text="華氏："></TextBox>
+                <TextBox x:Name="Fahrenheit" Text="{Binding TemperatureModel.Fahrenheit}"></TextBox>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Page>
