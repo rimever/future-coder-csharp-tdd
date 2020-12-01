@@ -28,9 +28,8 @@ namespace TddJumper
         BitmapImage[] images = new BitmapImage[8];
         private DispatcherTimer timer;
         private int counter = 0;
-        private int boxX = 600;
-        private int stickY = 200;
-        private int speed;
+        private int speed = 0;
+        private Rect stickRect, boxRect;
 
         public MainPage()
         {
@@ -43,14 +42,18 @@ namespace TddJumper
             timer.Interval = TimeSpan.FromMilliseconds(30);
             timer.Tick += Tick;
             timer.Start();
+
+            DataContext = this;
+            stickRect = new Rect(20, 200, 100, 150);
+            boxRect = new Rect(600, 300, 50, 200);
             Window.Current.CoreWindow.KeyDown += CoreWindow_KeyDown;
         }
 
         private void CoreWindow_KeyDown(Windows.UI.Core.CoreWindow sender, Windows.UI.Core.KeyEventArgs args)
         {
-            if (args.VirtualKey == VirtualKey.Space && stickY == 200)
+            if (args.VirtualKey == VirtualKey.Space && stickRect.Y == 200)
             {
-                speed = -15;
+                speed = -17;
             }
         }
 
@@ -58,17 +61,18 @@ namespace TddJumper
         {
             counter = (counter + 1) % 8;
             StickMan.Source = images[counter];
-            boxX = boxX > -100 ? boxX - 10 : 600;
-            Box.SetValue(Canvas.TopProperty, 300);
-            Box.SetValue(Canvas.LeftProperty, boxX);
             speed += 1;
-            stickY += speed;
-            if (stickY > 200)
+            stickRect.Y = Math.Min(200, stickRect.Y + speed);
+            StickMan.SetValue(Canvas.TopProperty, stickRect.Y);
+
+            boxRect.X = boxRect.X > -100 ? boxRect.X - 10 : 600;
+            Box.SetValue(Canvas.LeftProperty, boxRect.X);
+
+            if (RectHelper.Intersect(boxRect, stickRect) != Rect.Empty)
             {
-                stickY = 200;
-                speed = 0;
+                GameOver.Visibility = Visibility.Visible;
+                timer.Stop();
             }
-            StickMan.SetValue(Canvas.TopProperty, stickY);
         }
     }
 }
