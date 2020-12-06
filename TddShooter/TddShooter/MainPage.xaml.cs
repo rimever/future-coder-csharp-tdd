@@ -41,6 +41,7 @@ namespace TddShooter
             _timer.Interval = TimeSpan.FromMilliseconds(20);
             _timer.Tick += Tick;
             _timer.Start();
+            _model.AddEnemy(new Enemy(200, 100));
         }
 
         private void Tick(object sender, object e)
