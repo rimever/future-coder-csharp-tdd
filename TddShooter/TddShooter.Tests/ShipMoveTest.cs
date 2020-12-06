@@ -28,5 +28,32 @@ namespace TddShooter.Tests
             viewModel.Tick(2);
             Assert.AreEqual(100 - Ship.Speed * 4, viewModel.Ship.X);
         }
+
+        [UITestMethod]
+        public void ShipOnScreen()
+        {
+            var viewModel = new ViewModel();
+            viewModel.Ship.X = 100;
+            viewModel.Ship.Y = 100;
+            viewModel.KeyDown(VirtualKey.Left);
+            viewModel.Tick(1000);
+            Assert.IsTrue(viewModel.Ship.X >= 0);
+            viewModel.KeyUp(VirtualKey.Left);
+
+            viewModel.KeyDown(VirtualKey.Right);
+            viewModel.Tick(1000);
+            Assert.IsTrue(viewModel.Ship.X + viewModel.Ship.Width <= ViewModel.Field.Width);
+            viewModel.KeyUp(VirtualKey.Right);
+
+            viewModel.KeyDown(VirtualKey.Up);
+            viewModel.Tick(1000);
+            Assert.IsTrue(viewModel.Ship.Y >= 0);
+            viewModel.KeyUp(VirtualKey.Up);
+
+            viewModel.KeyDown(VirtualKey.Down);
+            viewModel.Tick(1000);
+            Assert.IsTrue(viewModel.Ship.Y + viewModel.Ship.Height <= ViewModel.Field.Height);
+            viewModel.KeyUp(VirtualKey.Down);
+        }
     }
 }

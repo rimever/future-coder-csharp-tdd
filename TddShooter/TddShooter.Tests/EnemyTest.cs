@@ -25,6 +25,11 @@ namespace TddShooter.Tests
             Assert.AreEqual(-50,enemy.Y);
             viewModel.Tick(1);
             Assert.AreEqual(100,enemy.X);
+            Assert.AreEqual(-50 + enemy.SpeedY,enemy.Y);
+            Assert.AreEqual(viewModel.Enemies.Count, 1);
+            int frame = (int) (ViewModel.Field.Height / enemy.SpeedY) + 10;
+            viewModel.Tick(frame);
+            Assert.AreEqual(viewModel.Enemies.Count, 0);
         }
     }
 }

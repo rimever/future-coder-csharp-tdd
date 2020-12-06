@@ -17,8 +17,24 @@ namespace TddShooter
         public Background Cloud { get; set; }
         public double Width => Field.Width;
         public double Height => Field.Height;
-        public ObservableCollection<Enemy> enemies = new ObservableCollection<Enemy>();
-        public ObservableCollection<Enemy> Enemies => enemies;
+        public ObservableCollection<Drawable> drawables = new ObservableCollection<Drawable>();
+        public ObservableCollection<Drawable> Drawables => drawables;
+
+        public List<Drawable> Enemies
+        {
+            get
+            {
+                return Drawables.Where(e => e is Enemy).ToList();
+            }
+        }
+
+        public List<Drawable> Bullets
+        {
+            get
+            {
+                return Drawables.Where(e => e is Bullet).ToList();
+            }
+        }
 
         public static readonly Rect Field = new Rect(0,0,643,800);
         private readonly Dictionary<VirtualKey, bool> _keyMap = new Dictionary<VirtualKey, bool>();
@@ -28,6 +44,9 @@ namespace TddShooter
             Ship = new Ship();
             Background = new Background("ms-appx:///Images/back.png");
             Cloud = new Background("ms-appx:///Images/back_cloud.png");
+            drawables.Add(Background);
+            drawables.Add(Cloud);
+            drawables.Add(Ship);
         }
 
         public void KeyDown(VirtualKey key)
@@ -41,35 +60,55 @@ namespace TddShooter
             {
                 Background.Scroll(1);
                 Cloud.Scroll(10);
-                foreach (var enemy in Enemies.ToArray())
+
+                Ship.SpeedX = 0;
+                Ship.SpeedY = 0;
+                if (IsKeyDown(VirtualKey.Left))
                 {
-                    enemy.Move();
-                    if (enemy.Y > Field.Height)
+                    Ship.SpeedX = -Ship.Speed;
+                }
+
+                if (IsKeyDown(VirtualKey.Right))
+                {
+                    Ship.SpeedX = Ship.Speed;
+                }
+
+                if (IsKeyDown(VirtualKey.Up))
+                {
+                    Ship.SpeedY = -Ship.Speed;
+                }
+
+                if (IsKeyDown(VirtualKey.Down))
+                {
+                    Ship.SpeedY = Ship.Speed;
+                }
+
+                if (IsKeyDown(VirtualKey.Space))
+                {
+                    var bullet = new Bullet(Ship.X + Ship.Width /2,Ship.Y + Ship.Height/2);
+                    AddBullet(bullet);
+                    _keyMap[VirtualKey.Space] = false;
+                }
+                foreach (var drawable in Drawables.ToArray())
+                {
+                    drawable.Move();
+                    if (drawable.Y > Field.Height 
+                        || drawable.Y + drawable.Height < 0
+                        || drawable.X > Field.Height
+                        || drawable.X + drawable.Width < 0)
                     {
-                        Enemies.Remove(enemy);
+                        Drawables.Remove(drawable);
                     }
                 }
 
-                if (_keyMap.ContainsKey(VirtualKey.Left) && _keyMap[VirtualKey.Left])
-                {
-                    Ship.Move(-Ship.Speed, 0);
-                }
-
-                if (_keyMap.ContainsKey(VirtualKey.Right) && _keyMap[VirtualKey.Right])
-                {
-                    Ship.Move(+Ship.Speed, 0);
-                }
-
-                if (_keyMap.ContainsKey(VirtualKey.Up) && _keyMap[VirtualKey.Up])
-                {
-                    Ship.Move(0, -Ship.Speed);
-                }
-
-                if (_keyMap.ContainsKey(VirtualKey.Down) && _keyMap[VirtualKey.Down])
-                {
-                    Ship.Move(0, Ship.Speed);
-                }
+                Ship.Y = Math.Max(0, Math.Min(Field.Height - Ship.Height, Ship.Y));
+                Ship.X = Math.Max(0, Math.Min(Field.Width - Ship.Width, Ship.X));
             }
+        }
+
+        private bool IsKeyDown(VirtualKey virtualKey)
+        {
+            return _keyMap.ContainsKey(virtualKey) && _keyMap[virtualKey];
         }
 
         public void KeyUp(VirtualKey key)
@@ -79,7 +118,12 @@ namespace TddShooter
 
         public void AddEnemy(Enemy enemy)
         {
-            Enemies.Add(enemy);
+            Drawables.Add(enemy);
+        }
+
+        public void AddBullet(Bullet bullet)
+        {
+            Drawables.Add(bullet);
         }
     }
 }

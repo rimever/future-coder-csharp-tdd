@@ -11,22 +11,7 @@
     <Grid>
         <Viewbox>
             <Canvas Width="{x:Bind Path=_model.Width}" Height="{x:Bind Path=_model.Height}">
-                <Image Source="{Binding Path=Background.Source}"
-                   Width="{Binding Path=Background.Width}"
-                   Height="{Binding Path=Background.Height}"
-                   Canvas.Top="{Binding Path=Background.Y}"
-                   Canvas.Left="{Binding Path=Background.X}"/>
-                <Image Source="{Binding Path=Cloud.Source}"
-                   Width="{Binding Path=Cloud.Width}"
-                   Height="{Binding Path=Cloud.Height}"
-                   Canvas.Top="{Binding Path=Cloud.Y}"
-                   Canvas.Left="{Binding Path=Cloud.X}"/>
-                <Image Source="{Binding Path=Ship.Source}"
-                   Width="{Binding Path=Ship.Width}"
-                   Height="{Binding Path=Ship.Height}"
-                   Canvas.Top="{Binding Path=Ship.Y}"
-                   Canvas.Left="{Binding Path=Ship.X}" />
-                <ItemsControl ItemsSource="{Binding Path=Enemies}">
+                <ItemsControl ItemsSource="{Binding Path=Drawables}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <Canvas/>
