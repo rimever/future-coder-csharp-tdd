@@ -1,6 +1,9 @@
+#region
+
 using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+
+#endregion
 
 [assembly: AssemblyTitle("TddShooter.Tests")]
 [assembly: AssemblyDescription("")]
@@ -10,7 +13,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCopyright("Copyright Â©  2020")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
-[assembly: AssemblyMetadata("TargetPlatform","UAP")]
+[assembly: AssemblyMetadata("TargetPlatform", "UAP")]
 
 //[ƒAƒZƒ“ƒuƒŠ: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.0.0.0")]

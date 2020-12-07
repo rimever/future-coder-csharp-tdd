@@ -1,15 +1,63 @@
-﻿using System;
-using System.Collections.Generic;
+﻿#region
+
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Windows.Foundation;
 using Windows.UI.Xaml.Media.Imaging;
+
+#endregion
 
 namespace TddShooter
 {
-    public class Drawable:INotifyPropertyChanged
+    public abstract class Drawable : INotifyPropertyChanged
     {
+        private BitmapImage _source;
+
+        internal Rect Rect;
+
+        protected Drawable(double width, double height)
+        {
+            Rect.Width = width;
+            Rect.Height = height;
+            IsValid = true;
+        }
+
+        internal virtual bool IsValid { set; get; }
+
+        public double X
+        {
+            get => Rect.X;
+            set
+            {
+                Rect.X = value;
+                NotifyPropertyChange("X");
+            }
+        }
+
+        public double Y
+        {
+            get => Rect.Y;
+            set
+            {
+                Rect.Y = value;
+                NotifyPropertyChange("Y");
+            }
+        }
+
+        public double Width => Rect.Width;
+        public double Height => Rect.Height;
+        public double SpeedX { get; set; }
+        public double SpeedY { get; set; }
+
+        public BitmapImage Source
+        {
+            get => _source;
+            protected set
+            {
+                _source = value;
+                NotifyPropertyChange(nameof(Source));
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         private void NotifyPropertyChange(string propertyName = "")
@@ -20,42 +68,6 @@ namespace TddShooter
             }
         }
 
-        private double _x, _y;
-
-        public double X
-        {
-            get => _x;
-            set
-            {
-                _x = value;
-                NotifyPropertyChange("X");
-            }
-        }
-
-        public double Y
-        {
-            get => _y;
-            set
-            {
-                _y = value;
-                NotifyPropertyChange("Y");
-            } }
-        public double Width { get; }
-        public double Height { get; }
-        public double SpeedX { get; set; }
-        public double SpeedY { get; set; }
-        public BitmapImage Source { get; protected set; }
-
-        protected Drawable(double width, double height)
-        {
-            Height = height;
-            Width = width;
-        }
-
-        public void Move()
-        {
-            X += SpeedX;
-            Y += SpeedY;
-        }
+        internal abstract void Tick();
     }
 }

@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Windows.ApplicationModel.Background;
+﻿#region
+
+using System;
 using Windows.UI.Xaml.Media.Imaging;
+
+#endregion
 
 namespace TddShooter
 {
@@ -18,14 +15,13 @@ namespace TddShooter
             Y = -2528;
         }
 
-        internal void Scroll(double dy)
+        internal override void Tick()
         {
-            Y += dy;
+            Y += SpeedY;
             if (Y > 0)
             {
                 Y = -2528;
             }
         }
-
     }
 }

@@ -1,18 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+﻿#region
+
+using System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
+
+#endregion
 
 // 空白ページの項目テンプレートについては、https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x411 を参照してください
 
@@ -23,15 +16,15 @@ namespace TddShooter
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        private ViewModel _model;
-        private DispatcherTimer _timer;
+        private readonly ViewModel _model;
+        private readonly DispatcherTimer _timer;
 
         /// <summary>
         /// <see cref="MainPage"/>のコンストラクタです。
         /// </summary>
         public MainPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
             DataContext = new ViewModel();
             _model = new ViewModel();
             DataContext = _model;

@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿#region
+
+using System;
 using Windows.UI.Xaml.Media.Imaging;
+
+#endregion
 
 namespace TddShooter.Model
 {
@@ -12,9 +11,15 @@ namespace TddShooter.Model
     {
         internal static readonly double Speed = 10;
 
-        internal Ship():base(60,60)
+        internal Ship() : base(60, 60)
         {
             Source = new BitmapImage(new Uri("ms-appx:///Images/ship.png"));
+        }
+
+        internal override void Tick()
+        {
+            X += SpeedX;
+            Y += SpeedY;
         }
     }
 }
