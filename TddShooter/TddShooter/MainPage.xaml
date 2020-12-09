@@ -10,6 +10,7 @@
 
     <Grid>
         <Viewbox>
+            <Grid>
             <Canvas Width="{x:Bind Path=_model.Width}" Height="{x:Bind Path=_model.Height}">
                 <ItemsControl ItemsSource="{Binding Path=Drawables}">
                     <ItemsControl.ItemsPanel>
@@ -28,6 +29,8 @@
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
             </Canvas>
+            <TextBlock FontSize="50" Foreground="Yellow" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Path=Message.Text}" Opacity="{Binding Path=Message.Alpha}"></TextBlock>
+            </Grid>
         </Viewbox>
     </Grid>
 </Page>

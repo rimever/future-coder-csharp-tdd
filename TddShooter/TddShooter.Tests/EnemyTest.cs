@@ -19,7 +19,7 @@ namespace TddShooter.Tests
             var viewModel = new ViewModel();
             Assert.AreEqual(viewModel.Enemies.Count, 0);
 
-            var enemy = new Enemy(100, -50);
+            var enemy = new Enemy0(100, -50);
             viewModel.AddEnemy(enemy);
             Assert.AreEqual(viewModel.Enemies.Count, 1);
             Assert.AreEqual(100, enemy.X);
@@ -40,7 +40,7 @@ namespace TddShooter.Tests
             viewModel.Ship.X = 300;
             viewModel.Ship.Y = 300;
 
-            var enemy = new Enemy(300, 0);
+            var enemy = new Enemy0(300, 0);
             viewModel.AddEnemy(enemy);
 
             viewModel.KeyDown(VirtualKey.Space);

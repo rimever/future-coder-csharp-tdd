@@ -122,10 +122,14 @@
     <Compile Include="Background.cs" />
     <Compile Include="Bullet.cs" />
     <Compile Include="Drawable.cs" />
-    <Compile Include="Enemy.cs" />
+    <Compile Include="Model\AbstractEnemy.cs" />
+    <Compile Include="Model\Enemy0.cs" />
+    <Compile Include="Model\Enemy1.cs" />
+    <Compile Include="IClock.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Message.cs" />
     <Compile Include="Model\Blast.cs" />
     <Compile Include="Model\Ship.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

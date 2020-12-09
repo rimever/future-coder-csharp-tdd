@@ -30,7 +30,7 @@ namespace TddShooter.Model
         internal override bool IsValid => counter < 8;
 
 
-        internal override void Tick()
+        public override void Tick()
         {
             counter++;
             Source = images[Math.Min(7, counter)];

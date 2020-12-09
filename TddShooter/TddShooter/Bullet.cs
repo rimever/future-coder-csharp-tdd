@@ -24,7 +24,7 @@ namespace TddShooter
 
         internal bool IsEnemy { set; get; }
 
-        internal override void Tick()
+        public override void Tick()
         {
             X += SpeedX;
             Y += SpeedY;

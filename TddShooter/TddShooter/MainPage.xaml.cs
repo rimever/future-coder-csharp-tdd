@@ -18,6 +18,7 @@ namespace TddShooter
     {
         private readonly ViewModel _model;
         private readonly DispatcherTimer _timer;
+        private int _count;
 
         /// <summary>
         /// <see cref="MainPage"/>のコンストラクタです。
@@ -34,11 +35,19 @@ namespace TddShooter
             _timer.Interval = TimeSpan.FromMilliseconds(20);
             _timer.Tick += Tick;
             _timer.Start();
-            _model.AddEnemy(new Enemy(200, 100));
+            _model.Message.Text = "GET READY...";
+            _model.AddEnemy(new Enemy1(300,0));
+            _model.AddEnemy(new Enemy1(500, -50));
+            _model.Ship.X = 300;
+            _model.Ship.Y = 700;
         }
 
         private void Tick(object sender, object e)
         {
+            if (++_count == 50)
+            {
+                _model.Message.Text = string.Empty;
+            }
             _model.Tick(1);
         }
 

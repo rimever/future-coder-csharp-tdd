@@ -15,7 +15,7 @@ namespace TddShooter
             Y = -2528;
         }
 
-        internal override void Tick()
+        public override void Tick()
         {
             Y += SpeedY;
             if (Y > 0)

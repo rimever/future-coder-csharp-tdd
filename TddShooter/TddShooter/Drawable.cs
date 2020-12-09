@@ -8,7 +8,7 @@ using Windows.UI.Xaml.Media.Imaging;
 
 namespace TddShooter
 {
-    public abstract class Drawable : INotifyPropertyChanged
+    public abstract class Drawable : INotifyPropertyChanged, IClock
     {
         private BitmapImage _source;
 
@@ -18,10 +18,19 @@ namespace TddShooter
         {
             Rect.Width = width;
             Rect.Height = height;
-            IsValid = true;
+            _isValid = true;
         }
 
-        internal virtual bool IsValid { set; get; }
+        protected bool _isValid;
+
+        internal virtual bool IsValid {
+            set
+            {
+                _isValid = value;
+                NotifyPropertyChange("IsValid");
+            }
+            get => _isValid;
+        }
 
         public double X
         {
@@ -68,6 +77,6 @@ namespace TddShooter
             }
         }
 
-        internal abstract void Tick();
+        public abstract void Tick();
     }
 }

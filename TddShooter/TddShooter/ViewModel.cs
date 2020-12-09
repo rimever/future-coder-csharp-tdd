@@ -18,8 +18,15 @@ namespace TddShooter
         private readonly Dictionary<VirtualKey, bool> _keyMap = new Dictionary<VirtualKey, bool>();
         public ObservableCollection<Drawable> drawables = new ObservableCollection<Drawable>();
 
+        /// <summary>
+        /// <see cref="ViewModel"/>のコンストラクタです。
+        /// </summary>
         internal ViewModel()
         {
+            Message = new Message
+            {
+                Text = "PUSH SPACE TO START"
+            };
             Ship = new Ship();
             Background = new Background("ms-appx:///Images/back.png");
             Background.SpeedY = 1;
@@ -36,8 +43,9 @@ namespace TddShooter
         public double Width => Field.Width;
         public double Height => Field.Height;
         public ObservableCollection<Drawable> Drawables => drawables;
+        public Message Message { get; set; }
 
-        public List<Drawable> Enemies => Filter<Enemy>();
+        public List<Drawable> Enemies => Filter<AbstractEnemy>();
 
         public List<Drawable> Bullets => Filter<Bullet>();
 
@@ -88,7 +96,7 @@ namespace TddShooter
                     AddBullet(bullet);
                     _keyMap[VirtualKey.Space] = false;
                 }
-
+                Message.Tick();
                 foreach (var drawable in Drawables.ToArray())
                 {
                     drawable.Tick();
@@ -99,7 +107,7 @@ namespace TddShooter
                         Drawables.Remove(drawable);
                     }
 
-                    if (drawable is Enemy enemy)
+                    if (drawable is AbstractEnemy enemy)
                     {
                         if (enemy.IsFire)
                         {
@@ -109,6 +117,7 @@ namespace TddShooter
                         if (Crash(enemy, Ship))
                         {
                             Ship.IsValid = false;
+                            Message.Text = "GAME OVER";
                         }
                     }
                 }
@@ -120,12 +129,13 @@ namespace TddShooter
                         if (Crash(bullet, Ship))
                         {
                             Ship.IsValid = false;
+                            Message.Text = "GAME OVER";
                         }
 
                         continue;
                     }
 
-                    foreach (var enemy in Enemies.Select(e => e as Enemy).ToArray())
+                    foreach (var enemy in Enemies.Select(e => e as Enemy0).ToArray())
                     {
                         if (Crash(bullet, enemy) && bullet.IsValid && enemy.IsValid)
                         {
@@ -142,7 +152,7 @@ namespace TddShooter
             }
         }
 
-        private void CreateEnemyBullet(Enemy enemy)
+        private void CreateEnemyBullet(AbstractEnemy enemy)
         {
             var sX = enemy.X + enemy.Width / 2;
             var sY = enemy.Y + enemy.Height / 2;
@@ -165,7 +175,7 @@ namespace TddShooter
             _keyMap[key] = false;
         }
 
-        public void AddEnemy(Enemy enemy)
+        public void AddEnemy(AbstractEnemy enemy)
         {
             Drawables.Add(enemy);
         }
