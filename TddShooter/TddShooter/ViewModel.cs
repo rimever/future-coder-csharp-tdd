@@ -135,7 +135,7 @@ namespace TddShooter
                         continue;
                     }
 
-                    foreach (var enemy in Enemies.Select(e => e as Enemy0).ToArray())
+                    foreach (var enemy in Enemies.Select(e => e as AbstractEnemy).ToArray())
                     {
                         if (Crash(bullet, enemy) && bullet.IsValid && enemy.IsValid)
                         {

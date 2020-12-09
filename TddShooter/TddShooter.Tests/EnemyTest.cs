@@ -60,5 +60,58 @@ namespace TddShooter.Tests
             viewModel.Tick(10);
             Assert.AreEqual(0, viewModel.Blasts.Count);
         }
+        [UITestMethod]
+        public void Enemy1Movement()
+        {
+            var viewModel = new ViewModel();
+            var enemy = new Enemy1(200, 0);
+            viewModel.AddEnemy(enemy);
+
+            Assert.AreEqual(viewModel.Enemies.Count,1);
+            Assert.AreEqual(200,enemy.X);
+            Assert.AreEqual(0, enemy.Y);
+            Assert.AreEqual(viewModel.Bullets.Count,0);
+
+            double previewX = enemy.X, previewY = enemy.Y, previewSpeed = enemy.SpeedY;
+            for (int i = 0; i < 40; i++)
+            {
+                viewModel.Tick(1);
+                Assert.AreEqual(previewX,enemy.X);
+                Assert.IsTrue(previewY <= enemy.Y);
+                Assert.AreEqual(previewSpeed - 0.5,enemy.SpeedY);
+                previewX = enemy.X;
+                previewY = enemy.Y;
+                previewSpeed = enemy.SpeedY;
+            }
+            Assert.AreEqual(viewModel.Bullets.Count,1);
+            for (int i = 0; i < 40; i++)
+            {
+                viewModel.Tick(1);
+                Assert.AreEqual(previewX,enemy.X);
+                Assert.IsTrue(previewY > enemy.Y);
+                Assert.AreEqual(previewSpeed -0.5,enemy.SpeedY);
+                previewX = enemy.X;
+                previewY = enemy.Y;
+                previewSpeed = enemy.SpeedY;
+            }
+        }
+        [UITestMethod]
+        public void Enemy2Movement()
+        {
+            var viewModel = new ViewModel();
+            double speedX = 3, speedY = 10, theta = -1;
+            var enemy = new Enemy2(300, 0, speedX, speedY, theta);
+            Assert.AreEqual("ms-appx:///Images/enemy2.png",enemy.Source.UriSource.AbsoluteUri);
+            viewModel.AddEnemy(enemy);
+            for (int i = 0; i < 50; i++)
+            {
+                Assert.AreEqual(300 + speedX * i ,enemy.X);
+                Assert.AreEqual(speedY * i, enemy.Y);
+                Assert.AreEqual(theta * i , enemy.Theta);
+                viewModel.Tick(1);
+            }
+            viewModel.Tick(50);
+            Assert.AreEqual(0, viewModel.Enemies.Count);
+        }
     }
 }

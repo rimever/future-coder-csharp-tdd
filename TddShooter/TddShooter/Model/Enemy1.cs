@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.UI.Xaml.Media.Imaging;
-using TddShooter.Model;
 
-namespace TddShooter
+namespace TddShooter.Model
 {
     internal class Enemy1:AbstractEnemy
     {

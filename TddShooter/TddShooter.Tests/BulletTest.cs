@@ -4,6 +4,7 @@ using System.Linq;
 using Windows.System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.VisualStudio.TestTools.UnitTesting.AppContainer;
+using TddShooter.Model;
 
 #endregion
 
@@ -90,42 +91,6 @@ namespace TddShooter.Tests
             Assert.IsTrue(viewModel.Ship.IsValid);
             viewModel.Tick(20);
             Assert.IsFalse(viewModel.Ship.IsValid);
-        }
-
-        [UITestMethod]
-        public void Enemy1Movement()
-        {
-            var viewModel = new ViewModel();
-            var enemy = new Enemy1(200, 0);
-            viewModel.AddEnemy(enemy);
-
-            Assert.AreEqual(viewModel.Enemies.Count,1);
-            Assert.AreEqual(200,enemy.X);
-            Assert.AreEqual(0, enemy.Y);
-            Assert.AreEqual(viewModel.Bullets.Count,0);
-
-            double previewX = enemy.X, previewY = enemy.Y, previewSpeed = enemy.SpeedY;
-            for (int i = 0; i < 40; i++)
-            {
-                viewModel.Tick(1);
-                Assert.AreEqual(previewX,enemy.X);
-                Assert.IsTrue(previewY <= enemy.Y);
-                Assert.AreEqual(previewSpeed - 0.5,enemy.SpeedY);
-                previewX = enemy.X;
-                previewY = enemy.Y;
-                previewSpeed = enemy.SpeedY;
-            }
-            Assert.AreEqual(viewModel.Bullets.Count,1);
-            for (int i = 0; i < 40; i++)
-            {
-                viewModel.Tick(1);
-                Assert.AreEqual(previewX,enemy.X);
-                Assert.IsTrue(previewY > enemy.Y);
-                Assert.AreEqual(previewSpeed -0.5,enemy.SpeedY);
-                previewX = enemy.X;
-                previewY = enemy.Y;
-                previewSpeed = enemy.SpeedY;
-            }
         }
     }
 }

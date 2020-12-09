@@ -2,11 +2,10 @@
 
 using System;
 using Windows.UI.Xaml.Media.Imaging;
-using TddShooter.Model;
 
 #endregion
 
-namespace TddShooter
+namespace TddShooter.Model
 {
     internal class Enemy0 : AbstractEnemy
     {

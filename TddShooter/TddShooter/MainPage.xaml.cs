@@ -4,6 +4,7 @@ using System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using TddShooter.Model;
 
 #endregion
 
@@ -36,8 +37,8 @@ namespace TddShooter
             _timer.Tick += Tick;
             _timer.Start();
             _model.Message.Text = "GET READY...";
-            _model.AddEnemy(new Enemy1(300,0));
-            _model.AddEnemy(new Enemy1(500, -50));
+            _model.AddEnemy(new Enemy2(300,0,-2,8,0.5));
+            _model.AddEnemy(new Enemy2(350,0,2,8,-0.5));
             _model.Ship.X = 300;
             _model.Ship.Y = 700;
         }

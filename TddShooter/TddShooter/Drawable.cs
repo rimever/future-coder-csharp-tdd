@@ -77,6 +77,21 @@ namespace TddShooter
             }
         }
 
+        private double theta = 0;
+
+        public virtual double Theta
+        {
+            get => theta;
+            set
+            {
+                theta = value;
+                NotifyPropertyChange(nameof(Theta));
+            }
+        }
+
+        public double CenterX => Width / 2;
+        public double CenterY => Height / 2;
+
         public abstract void Tick();
     }
 }
