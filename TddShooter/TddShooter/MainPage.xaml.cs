@@ -1,9 +1,13 @@
 ﻿#region
 
 using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Windows.Storage;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media.Animation;
 using TddShooter.Model;
 
 #endregion
@@ -20,6 +24,7 @@ namespace TddShooter
         private readonly ViewModel _model;
         private readonly DispatcherTimer _timer;
         private int _count;
+        private Dictionary<int, List<AbstractEnemy>> story;
 
         /// <summary>
         /// <see cref="MainPage"/>のコンストラクタです。
@@ -27,8 +32,9 @@ namespace TddShooter
         public MainPage()
         {
             InitializeComponent();
-            DataContext = new ViewModel();
+            ReadScenarioAsync();
             _model = new ViewModel();
+            DataContext = _model;
             DataContext = _model;
             Window.Current.CoreWindow.KeyDown += CoreWindowOnKeyDown;
             Window.Current.CoreWindow.KeyUp += CoreWindowOnKeyUp;
@@ -37,13 +43,29 @@ namespace TddShooter
             _timer.Tick += Tick;
             _timer.Start();
             _model.Message.Text = "GET READY...";
-            _model.AddEnemy(new Enemy4(350,0));
             _model.Ship.X = 300;
             _model.Ship.Y = 700;
         }
 
+        private async Task ReadScenarioAsync()
+        {
+            var file = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Settings/scenario.json"));
+            string text = await FileIO.ReadTextAsync(file);
+            story = ScenarioReader.Read(text);
+        }
+
         private void Tick(object sender, object e)
         {
+            if (story.ContainsKey(_count))
+            {
+                var enemies = story[_count];
+                foreach (var enemy in enemies)
+                {
+                    _model.AddEnemy(enemy);
+                }
+
+                story.Remove(_count);
+            }
             if (++_count == 50)
             {
                 _model.Message.Text = string.Empty;
