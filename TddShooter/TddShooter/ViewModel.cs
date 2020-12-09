@@ -14,6 +14,8 @@ namespace TddShooter
 {
     class ViewModel
     {
+        private int totalBullets = 0;
+        public int TotalBullets => totalBullets;
         public static readonly Rect Field = new Rect(0, 0, 643, 800);
         private readonly Dictionary<VirtualKey, bool> _keyMap = new Dictionary<VirtualKey, bool>();
         public ObservableCollection<Drawable> drawables = new ObservableCollection<Drawable>();
@@ -182,6 +184,7 @@ namespace TddShooter
 
         public void AddBullet(Bullet bullet)
         {
+            totalBullets++;
             Drawables.Add(bullet);
         }
 
